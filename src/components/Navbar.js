@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import "./Navbar.css";
 
-import test from "../assets/c9ccb3f1376587ffcbab8ad3009e8c52cc1f0389.jpg";
+import defaultAvatar from "../assets/c9ccb3f1376587ffcbab8ad3009e8c52cc1f0389.jpg";
 
 import { FaUser } from "react-icons/fa";
 import { PiHandEyeFill } from "react-icons/pi";
@@ -15,7 +15,7 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    navigate("/"); // redirect to landing page
+    navigate("/");
   };
 
   return (
@@ -31,7 +31,7 @@ export default function Navbar() {
         {user ? (
           <div className="user-info">
             <FaShoppingCart size={20} color="#10151F" />
-            <img src={test} alt="Avatar" className="avatar" />
+            <img src={defaultAvatar} alt="Avatar" className="avatar" />
           </div>
         ) : (
           <div className="login-link" onClick={() => navigate("/auth")}>
