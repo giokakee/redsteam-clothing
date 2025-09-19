@@ -3,13 +3,14 @@ import { AiOutlineEye } from "react-icons/ai";
 import "./InputField.css";
 import { useState } from "react";
 
-const InputField = ({ type, value, onChange, placeholder, name }) => {
+const InputField = ({ type, value, onChange, placeholder, name, error }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
     <div className="input-group">
       <input
         // type={type}
+        style={error ? { borderBottom: "1px solid #FF4000" } : {}}
         name={name}
         value={value}
         onChange={(e) => onChange(e)}

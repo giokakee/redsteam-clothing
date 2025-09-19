@@ -1,10 +1,15 @@
-import { useState } from "react";
-import { FaUser, FaLock } from "react-icons/fa";
 import "./AuthForm.css";
+import { useEffect, useState } from "react";
 import InputField from "./InputField";
-import defaultAvatar from "../assets/blank-avatar-photo-place-holder-600nw-1095249842.jpg";
+import defaultAvatar from "../../assets/blank-avatar-photo-place-holder-600nw-1095249842.jpg";
+import { validateRegister } from "../../utils/validation";
+import { registerUser, loginUser } from "../../features/auth/authThunk";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function AuthForm({ isLogin, onSubmit }) {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
@@ -17,7 +22,23 @@ export default function AuthForm({ isLogin, onSubmit }) {
     confirmPassword: "",
   });
 
-  const [defaultAvatarImage, setDefaultAvatarImage] = useState(defaultAvatar);
+  const [file, setFile] = useState(null);
+  const [preview, setPreview] = useState(defaultAvatar);
+  const [fileError, setFileError] = useState(false);
+
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreview(defaultAvatar);
+    }
+  }, [file]);
 
   const handleLoginChange = (e) => {
     const { name, value } = e.target;
@@ -28,17 +49,62 @@ export default function AuthForm({ isLogin, onSubmit }) {
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setRegisterData((prevData) => ({ ...prevData, [name]: value }));
+
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  };
+
+  const handleFileChange = (e) => {
+    setFileError(false);
+    const selectedFile = e.target.files[0];
+
+    if (selectedFile && !selectedFile.type.startsWith("image/")) {
+      setFileError(true);
+      setFile(null);
+      setPreview(defaultAvatar);
+      return;
+    }
+
+    setFile(selectedFile);
   };
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
 
+    try {
+      dispatch(loginUser(loginData));
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+
     setLoginData({ email: "", password: "" });
   };
 
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
-    console.log("we are inside register submit", registerData);
+    const validationErrors = validateRegister(registerData);
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("username", registerData.username);
+    formData.append("email", registerData.email);
+    formData.append("password", registerData.password);
+    formData.append("password_confirmation", registerData.confirmPassword);
+    if (file) {
+      formData.append("avatar", file);
+    }
+
+    try {
+      dispatch(registerUser(formData));
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
 
     setRegisterData({
       username: "",
@@ -48,17 +114,9 @@ export default function AuthForm({ isLogin, onSubmit }) {
     });
   };
 
-  const avatarUploadHandler = (e) => {
-    const file = e.target.files[0]; // Access the selected file
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setDefaultAvatarImage(reader.result); // Set the image preview
-      }; // Read the file as a data URL
-      reader.readAsDataURL(file);
-    }
-
-    console.log(file, " this is file");
+  const removeFile = () => {
+    setFile(null);
+    setFileError(false);
   };
 
   return (
@@ -73,7 +131,7 @@ export default function AuthForm({ isLogin, onSubmit }) {
             name="email"
             value={loginData.email}
             onChange={handleLoginChange}
-            placeholder="Email or username"
+            placeholder="Email "
           />
           <InputField
             type="password"
@@ -89,25 +147,24 @@ export default function AuthForm({ isLogin, onSubmit }) {
       ) : (
         <div className="register-form">
           <div className="register-avatar">
-            <img src={defaultAvatarImage} alt="Avatar" height={30} />
+            <img
+              src={preview}
+              alt="Avatar"
+              height={30}
+              style={fileError ? { border: "1px solid red" } : {}}
+            />
             <div className="upload-button">
-              <input
-                id="file-input"
-                type="file"
-                onChange={avatarUploadHandler}
-              />
+              <input id="file-input" type="file" onChange={handleFileChange} />
               <label htmlFor="file-input">Upload new</label>
             </div>
-            <p
-              className="remove-button"
-              onClick={() => setDefaultAvatarImage(defaultAvatar)}
-            >
+            <p className="remove-button" onClick={removeFile}>
               Remove
             </p>
           </div>
           <InputField
             type="text"
             name="username"
+            error={errors.username}
             value={registerData.username}
             onChange={handleRegisterChange}
             placeholder="Username"
@@ -115,6 +172,7 @@ export default function AuthForm({ isLogin, onSubmit }) {
           <InputField
             type="email"
             name="email"
+            error={errors.email}
             value={registerData.email}
             onChange={handleRegisterChange}
             placeholder="Email"
@@ -122,6 +180,7 @@ export default function AuthForm({ isLogin, onSubmit }) {
           <InputField
             type="password"
             name="password"
+            error={errors.password}
             value={registerData.password}
             onChange={handleRegisterChange}
             placeholder="Password"
@@ -129,6 +188,7 @@ export default function AuthForm({ isLogin, onSubmit }) {
           <InputField
             type="password"
             name="confirmPassword"
+            error={errors.confirmPassword}
             value={registerData.confirmPassword}
             onChange={handleRegisterChange}
             placeholder="Confirm Password"

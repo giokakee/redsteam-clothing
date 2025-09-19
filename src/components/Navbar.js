@@ -4,19 +4,16 @@ import "./Navbar.css";
 
 import defaultAvatar from "../assets/c9ccb3f1376587ffcbab8ad3009e8c52cc1f0389.jpg";
 
+import testUser from "../assets/logo192.png";
+
 import { FaUser } from "react-icons/fa";
 import { PiHandEyeFill } from "react-icons/pi";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 export default function Navbar() {
   const [user, setUser] = useState(false);
 
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/");
-  };
 
   return (
     <nav className="navbar">
@@ -25,7 +22,7 @@ export default function Navbar() {
         <p>RedSeam Clothing</p>
       </div>
 
-      <button onClick={() => setUser(!user)}>test</button>
+      <button onClick={() => setUser(!user)}>tesrrrrrrt</button>
 
       <div className="navbar-right">
         {user ? (

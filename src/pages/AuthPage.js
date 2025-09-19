@@ -1,6 +1,6 @@
 import "./AuthPage.css";
 import { useState } from "react";
-import AuthForm from "../components/AuthForm";
+import AuthForm from "../components/auth/AuthForm";
 import backgroundImage from "../assets/62bc5492a876268b6b9fc395f006a9259cafde47.png";
 
 export default function AuthPage() {
