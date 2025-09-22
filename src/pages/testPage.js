@@ -8,30 +8,6 @@ const userToRegister = {
   password_confirmation: "testpassword",
 };
 
-// const obj = {
-//   user: {
-//     username: "zimbabue",
-//     email: "zimbabue@example.com",
-//     avatar:
-//       "https://api.redseam.redberryinternship.ge/storage/avatars/vlpSZ3A9rAmacRZiPkp7Q4jli1GiDoWquETEMnJ2.jpg",
-//     id: 232,
-//   },
-//   token: "1501|Io9kTV1FgyFbSXny5BGofztbQ5Tj63J653oJNqgsce517c66",
-// };
-
-// const loginedUser = {
-//   user: {
-//     id: 232,
-//     username: "zimbabue",
-//     email: "zimbabue@example.com",
-//     is_admin: 0,
-//     remember_token: null,
-//     avatar:
-//       "https://api.redseam.redberryinternship.ge/storage/avatars/vlpSZ3A9rAmacRZiPkp7Q4jli1GiDoWquETEMnJ2.jpg",
-//   },
-//   token: "1502|EOOmG4KmBTVMbdZmEjmlZrC9fPU7PYH4vuL0eGBp14f17637",
-// };
-
 const TestPage = () => {
   const [file, setFile] = useState(null);
 
@@ -75,7 +51,37 @@ const TestPage = () => {
       <input type="file" onChange={(e) => setFile(e.target.files[0])} />
       <button onClick={registerUSer}>Register User</button>
 
+      <input
+        onFocus={(e) => console.log(e)}
+        onBlur={() => console.log("mouse movedd")}
+      />
+      <select>
+        <option
+          value="1"
+          onClick={(e) => console.log("option clicked")}
+          onMouseEnter={(e) => console.log("mouse enter")}
+          onMouseLeave={(e) => console.log("mouse leave")}
+        >
+          Option 1
+        </option>
+
+        <option value="2">Option 2</option>
+      </select>
+
       <button onClick={loginUser}> login user</button>
+
+      <select
+        onChange={(e) => {
+          console.log("Selected value:", e.target.value);
+          console.log(
+            "Selected text:",
+            e.target.options[e.target.selectedIndex].text
+          );
+        }}
+      >
+        <option value="1">One</option>
+        <option value="2">Two</option>
+      </select>
     </div>
   );
 };

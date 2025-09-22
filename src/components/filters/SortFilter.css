@@ -1,0 +1,68 @@
+.sort-select {
+  position: relative;
+  display: inline-block;
+}
+
+.sort-select-toggle {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  min-width: 150px;
+  display: flex;
+  align-items: center;
+
+  font-family: Poppins;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  justify-content: end;
+}
+
+.arrow {
+  margin-left: 8px;
+}
+
+.sort-options {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0;
+  width: 223px;
+  z-index: 1000;
+}
+
+.sort-option {
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.sort-option:hover {
+  background-color: #d4cdcd;
+  color: #ff4000;
+}
+
+.sort-option {
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.sort-option.active {
+  background-color: #d4cdcd;
+  font-weight: bold;
+  color: #ff4000; /* accent color */
+}
+
+.sorting-overlay {
+  width: 100%;
+  height: 100%;
+  border: 1px solid;
+  position: absolute;
+}

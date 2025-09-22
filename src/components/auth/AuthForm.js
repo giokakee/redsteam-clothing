@@ -25,7 +25,6 @@ export default function AuthForm({ isLogin, onSubmit }) {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(defaultAvatar);
   const [fileError, setFileError] = useState(false);
-
   const [errors, setErrors] = useState({});
 
   useEffect(() => {

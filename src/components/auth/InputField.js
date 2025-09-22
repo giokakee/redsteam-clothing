@@ -11,7 +11,7 @@ const InputField = ({ type, value, onChange, placeholder, name, error }) => {
       <input
         // type={type}
         style={error ? { borderBottom: "1px solid #FF4000" } : {}}
-        name={name}
+        id={name}
         value={value}
         onChange={(e) => onChange(e)}
         className="input-box"

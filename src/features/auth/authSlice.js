@@ -8,8 +8,6 @@ const initialState = {
   error: null,
 };
 
-console.log(initialState);
-
 const authSlice = createSlice({
   name: "auth",
   initialState,
