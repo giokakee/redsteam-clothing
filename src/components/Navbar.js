@@ -8,10 +8,14 @@ import { FaUser } from "react-icons/fa";
 import { PiHandEyeFill } from "react-icons/pi";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import CartDrawer from "./cart/CartDrawer";
 export default function Navbar() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const cart = useSelector((state) => state.cart);
+  console.log(cart, " here we areeee");
   return (
     <div className="navbar-container">
       <nav className="navbar">
@@ -38,6 +42,8 @@ export default function Navbar() {
           )}
         </div>
       </nav>
+
+      <CartDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} items={[]} />
     </div>
   );
 }

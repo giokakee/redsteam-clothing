@@ -22,6 +22,19 @@
   align-items: center;
 }
 
+.price-filter {
+  display: flex;
+  align-items: center;
+  font-family: Poppins;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 14px;
+  leading-trim: NONE;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #3e424a;
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -29,8 +42,6 @@
 }
 
 .product-card {
-  border: 1px solid #eee;
-  border-radius: 10px;
   padding: 3px;
   text-align: center;
   background: #fff;
@@ -55,6 +66,7 @@
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
 }
 
 .product-card:hover .product-image {

@@ -4,24 +4,19 @@ import SizeSelector from "./SizeSelector";
 import QuantitySelector from "./QuantitySelector";
 import AddToCartButton from "./AddToCart";
 
-const ProductInfo = ({ product }) => {
-  const [selectedColor, setSelectedColor] = useState(
-    product.available_colors[0]
-  );
+const ProductInfo = ({ product, colors, selectedImage, setSelectedImage }) => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
 
-  console.log(selectedColor);
-
   return (
     <div className="product-info">
-      <h2>{product.name}</h2>
+      <p className="product-name"> {product.name}</p>
       <p className="price">${product.price}</p>
 
       <ColorSelector
-        colors={product.available_colors}
-        selected={selectedColor}
-        onSelect={setSelectedColor}
+        colors={colors}
+        selectedImage={selectedImage}
+        setSelectedImage={setSelectedImage}
       />
 
       <SizeSelector
@@ -34,13 +29,17 @@ const ProductInfo = ({ product }) => {
 
       <AddToCartButton
         product={product}
-        color={selectedColor}
+        color={selectedImage}
         size={selectedSize}
         quantity={quantity}
       />
 
       <div className="product-details">
-        <h3>Details</h3>
+        <div className="product-brand">
+          <h3>Details</h3>
+          <img src={product.brand.image} />
+        </div>
+        <p>Brand: {product.brand.name}</p>
         <p>{product.description}</p>
       </div>
     </div>

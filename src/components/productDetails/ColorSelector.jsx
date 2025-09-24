@@ -1,15 +1,15 @@
 import React from "react";
 
-const ColorSelector = ({ colors, selected, onSelect }) => (
+const ColorSelector = ({ colors, selectedImage, setSelectedImage }) => (
   <div className="color-selector">
-    <p>Color:</p>
+    <p className="color-label">Color: {colors[selectedImage]} </p>
     <div className="color-options">
       {colors.map((color, idx) => (
         <span
           key={idx}
-          className={`color-circle ${selected === color ? "active" : ""}`}
+          className={`color-circle ${selectedImage === idx ? "active" : ""}`}
           style={{ backgroundColor: color }}
-          onClick={() => onSelect(color)}
+          onClick={() => setSelectedImage(idx)}
         />
       ))}
     </div>

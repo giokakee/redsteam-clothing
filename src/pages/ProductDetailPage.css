@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: center;
 }
+
 .listing-title {
   font-family: Poppins;
   font-weight: 300;
@@ -35,10 +36,14 @@
   object-fit: cover;
   border: 2px solid transparent;
   cursor: pointer;
+  margin-bottom: 7px;
+  transition: all 0.2s ease-in-out;
 }
 
 .thumbnail.active {
-  border-color: #ff4500;
+  width: 90px;
+  height: 90px;
+  margin-left: 13x;
 }
 
 .main-image {
@@ -57,12 +62,29 @@
   border-radius: 10px;
 }
 
+.product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 177px;
+}
+
+.product-name,
+.price {
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 100%;
+  color: #10151f;
+}
+
 .product-info .price {
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 1rem;
 }
 
+/* Color and size options */
 .color-options {
   display: flex;
   gap: 0.5rem;
@@ -76,8 +98,21 @@
   border: 2px solid transparent;
 }
 
+.color-label,
+.size-label {
+  margin-right: 0.5rem;
+  font-family: Poppins;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+}
+
 .color-circle.active {
   border: 2px solid #000;
+}
+
+.color-circle:hover {
+  border: 2px solid #e98967;
 }
 
 .size-options {
@@ -86,15 +121,29 @@
 }
 
 .size-btn {
-  padding: 0.4rem 0.8rem;
-  border: 1px solid #ccc;
-  background: #fff;
+  width: 70px;
+  height: 42px;
+  gap: 10px;
+  opacity: 1;
+  border-radius: 10px;
+  border-width: 1px;
+  padding-top: 9px;
+  padding-right: 16px;
+  padding-bottom: 9px;
+  padding-left: 16px;
+  border: none;
   cursor: pointer;
 }
 
 .size-btn.active {
+  border: 1px solid;
   border-color: #000;
   font-weight: bold;
+}
+
+.size-btn:hover {
+  border: 1px solid;
+  border-color: #e98967;
 }
 
 .add-to-cart-btn {
@@ -106,4 +155,23 @@
   cursor: pointer;
   margin: 1rem 0;
   width: 100%;
+}
+
+.product-details p {
+  font-family: Poppins;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 100%;
+  color: #3e424a;
+}
+
+.product-brand {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.product-brand img {
+  height: 60px;
 }

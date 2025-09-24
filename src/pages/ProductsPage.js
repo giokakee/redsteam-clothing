@@ -4,6 +4,7 @@ import productApi from "../api/productApi";
 import { Link, useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import FilterSortBar from "../components/filters/FilterSortBar";
+import { RiDeleteBack2Line } from "react-icons/ri";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -11,7 +12,7 @@ const ProductsPage = () => {
   const [error, setError] = useState(null);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
 
   useEffect(() => {
@@ -35,6 +36,14 @@ const ProductsPage = () => {
     fetchProducts();
   }, [searchParams]);
 
+  const priceFrom = searchParams.get("filter[price_from]") || "";
+  const priceTo = searchParams.get("filter[price_to]") || "";
+  const newParams = new URLSearchParams(searchParams);
+
+  const paramsObj = Object.fromEntries(searchParams.entries());
+
+  console.log(paramsObj);
+
   if (loading) return <p>Loading products...</p>;
   if (error) return <p>{error}</p>;
 
@@ -45,6 +54,23 @@ const ProductsPage = () => {
           <h2 className="products-title">Products</h2>
           <FilterSortBar totalItems={totalItems} />
         </div>
+
+        {(priceFrom || priceTo) && (
+          <div className="price-filter">
+            <p>
+              Price: {priceFrom && `${!priceTo && "From"}  ${priceFrom}`}{" "}
+              {priceTo && `${!priceFrom && "0"} - ${priceTo}`}
+            </p>
+            <RiDeleteBack2Line
+              style={{ cursor: "pointer", marginLeft: "10px" }}
+              onClick={() => {
+                newParams.delete("filter[price_from]");
+                newParams.delete("filter[price_to]");
+                setSearchParams(newParams);
+              }}
+            />
+          </div>
+        )}
 
         <div className="products-grid">
           {products.map((product) => (

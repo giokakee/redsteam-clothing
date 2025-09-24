@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import PriceFilterModal from "./PriceFilter";
 import { HiAdjustmentsHorizontal } from "react-icons/hi2";
+import { MdDone } from "react-icons/md";
 import "./FilterSortBar.css";
 import SortDropdown from "./SortFilter";
 
@@ -39,7 +40,7 @@ const FilterSortBar = ({ totalItems }) => {
               }}
             >
               <HiAdjustmentsHorizontal size={24} color="#0F172A" />
-              <p>Filter {(priceFrom || priceTo) && "✓"}</p>
+              <p>Filter {(priceFrom || priceTo) && <MdDone size={15} />}</p>
             </div>
           </div>
 

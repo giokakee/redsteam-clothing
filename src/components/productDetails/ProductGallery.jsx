@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 
-const ProductGallery = ({ images }) => {
-  const [selected, setSelected] = useState(images[0]);
-
+const ProductGallery = ({ images, selectedImage, setSelectedImage }) => {
   return (
     <div className="product-gallery">
       <div className="thumbnails">
-        {images.map((img, idx) => (
-          <img
-            key={idx}
-            src={img}
-            alt={`thumb-${idx}`}
-            className={`thumbnail ${selected === img ? "active" : ""}`}
-            onClick={() => setSelected(img)}
-          />
-        ))}
+        {images.map((img, idx) => {
+          return (
+            <img
+              key={idx}
+              src={img}
+              alt={`thumb-${idx}`}
+              className={`thumbnail ${selectedImage === idx ? "active" : ""}`}
+              onClick={() => setSelectedImage(idx)}
+            />
+          );
+        })}
       </div>
       <div className="main-image">
-        <img src={selected} alt="selected product" />
+        <img src={images[selectedImage]} alt="selected product" />
       </div>
     </div>
   );

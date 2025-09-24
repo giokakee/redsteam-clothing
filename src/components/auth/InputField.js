@@ -9,7 +9,8 @@ const InputField = ({ type, value, onChange, placeholder, name, error }) => {
   return (
     <div className="input-group">
       <input
-        // type={type}
+        type={type}
+        name={name}
         style={error ? { borderBottom: "1px solid #FF4000" } : {}}
         id={name}
         value={value}

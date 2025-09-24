@@ -1,5 +1,15 @@
-import { useState } from "react";
-import authApi from "../api/authApi";
+import { use, useEffect, useState } from "react";
+import cartApi from "../api/cartApi";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addToCart,
+  checkoutCart,
+  fetchCart,
+  removeFromCart,
+  updateCartQuantity,
+} from "../features/cart/cartThunk";
+import { BiColor } from "react-icons/bi";
+import axios from "axios";
 
 const userToRegister = {
   email: "zimbabue@example.com",
@@ -9,38 +19,54 @@ const userToRegister = {
 };
 
 const TestPage = () => {
-  const [file, setFile] = useState(null);
+  const dispatch = useDispatch();
+  const { items, loading, error } = useSelector((state) => state.cart);
+  const [quantitiInput, setQuantitiInput] = useState("");
+  // Load cart on mount
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, [dispatch]);
 
-  const registerUSer = async () => {
+  const addToCartButton = async () => {
     try {
-      if (!file) {
-        return;
-      }
-      const formData = new FormData();
-      formData.append("username", userToRegister.username);
-      formData.append("email", userToRegister.email);
-      formData.append("password", userToRegister.password);
-      formData.append(
-        "password_confirmation",
-        userToRegister.password_confirmation
+      dispatch(
+        addToCart({ id: 14, data: { quantity: 2, color: "red", size: "M" } })
       );
-      formData.append("avatar", file);
-      const res = await authApi.register(formData);
-      console.log(res);
-
-      console.log(userToRegister, " this is form data");
     } catch (err) {
       console.log(err);
     }
   };
 
-  const loginUser = async () => {
+  const updateCart = async () => {
     try {
-      const res = await authApi.login({
-        email: "             zimbabue@example.com",
-        password: "testpassword",
-      });
-      console.log(res);
+      console.log("aee");
+      dispatch(updateCartQuantity({ id: 199, quantity: quantitiInput }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const deleteFromCartBbutton = async () => {
+    try {
+      dispatch(removeFromCart(19));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const checkoutFromCart = async () => {
+    try {
+      dispatch(
+        checkoutCart({
+          data: {
+            name: "namesssssss",
+            surname: "surnamessssss",
+            address: "addressssss",
+            zip_code: "1234",
+            email: "someEmaill@gmail.com",
+          },
+        })
+      );
     } catch (err) {
       console.log(err);
     }
@@ -48,40 +74,22 @@ const TestPage = () => {
 
   return (
     <div>
-      <input type="file" onChange={(e) => setFile(e.target.files[0])} />
-      <button onClick={registerUSer}>Register User</button>
+      <button onClick={addToCartButton}>add to cart</button>
 
+      {items.map((item) => (
+        <div key={item.id}>
+          {item.name} - {item.quantity}
+        </div>
+      ))}
+
+      <button onClick={updateCart}>update</button>
+      <button onClick={deleteFromCartBbutton}>delete</button>
       <input
-        onFocus={(e) => console.log(e)}
-        onBlur={() => console.log("mouse movedd")}
+        value={quantitiInput}
+        onChange={(e) => setQuantitiInput(e.target.value)}
       />
-      <select>
-        <option
-          value="1"
-          onClick={(e) => console.log("option clicked")}
-          onMouseEnter={(e) => console.log("mouse enter")}
-          onMouseLeave={(e) => console.log("mouse leave")}
-        >
-          Option 1
-        </option>
 
-        <option value="2">Option 2</option>
-      </select>
-
-      <button onClick={loginUser}> login user</button>
-
-      <select
-        onChange={(e) => {
-          console.log("Selected value:", e.target.value);
-          console.log(
-            "Selected text:",
-            e.target.options[e.target.selectedIndex].text
-          );
-        }}
-      >
-        <option value="1">One</option>
-        <option value="2">Two</option>
-      </select>
+      <button onClick={checkoutFromCart}>checkout</button>
     </div>
   );
 };

@@ -1,30 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-  items: [], // each item = {id, name, price, quantity}
-};
+import {
+  fetchCart,
+  addToCart,
+  removeFromCart,
+  updateCartQuantity,
+  checkoutCart,
+} from "./cartThunk";
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState,
-  reducers: {
-    addToCart: (state, action) => {
-      const item = action.payload;
-      const existing = state.items.find((i) => i.id === item.id);
-      if (existing) {
-        existing.quantity += item.quantity;
-      } else {
-        state.items.push(item);
-      }
-    },
-    removeFromCart: (state, action) => {
-      state.items = state.items.filter((i) => i.id !== action.payload);
-    },
-    clearCart: (state) => {
-      state.items = [];
-    },
+  initialState: {
+    items: [],
+    loading: false,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCart.fulfilled, (state, action) => {
+        state.items = action.payload;
+      })
+      .addCase(addToCart.fulfilled, (state, action) => {
+        state.items.push(action.payload);
+      })
+      .addCase(updateCartQuantity.fulfilled, (state, action) => {
+        const { id, quantity } = action.payload; // make sure payload has both
+        const index = state.items.findIndex((item) => item.id === id);
+        if (index !== -1) {
+          state.items[index].quantity = quantity; // ✅ update just quantity
+        }
+      })
+      .addCase(removeFromCart.fulfilled, (state, action) => {
+        state.items = state.items.filter((item) => item.id !== action.payload);
+      })
+      .addCase(checkoutCart.fulfilled, (state, action) => {
+        state.items = []; // empty cart on success
+      });
   },
 });
 
-export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

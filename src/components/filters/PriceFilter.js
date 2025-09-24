@@ -3,7 +3,7 @@ import "./PriceFilter.css";
 import { FaAsterisk } from "react-icons/fa";
 import { useSearchParams } from "react-router-dom";
 
-const PriceFilterModal = ({ isOpen, onClose, onApply }) => {
+const PriceFilterModal = ({ isOpen, onClose }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const priceFrom = searchParams.get("filter[price_from]") || "";
@@ -24,7 +24,6 @@ const PriceFilterModal = ({ isOpen, onClose, onApply }) => {
       newParams.delete("filter[price_from]");
     }
 
-    // Set or delete the max price parameter
     if (newMaxPrice) {
       newParams.set("filter[price_to]", newMaxPrice);
     } else {
