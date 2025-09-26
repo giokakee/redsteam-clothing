@@ -57,7 +57,7 @@
 .sort-option.active {
   background-color: #d4cdcd;
   font-weight: bold;
-  color: #ff4000; /* accent color */
+  color: #ff4000;
 }
 
 .sorting-overlay {

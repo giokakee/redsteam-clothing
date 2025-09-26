@@ -78,7 +78,7 @@
 }
 
 .congrats {
-  position: fixed; /* always on top of everything */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -120,8 +120,8 @@
 }
 
 .checkout-btn-disabled {
-  background-color: #a1beea; /* gray background */
-  color: #4c5056; /* lighter gray text */
+  background-color: #a1beea;
+  color: #4c5056;
   border: none;
   border-radius: 8px;
   font-size: 16px;
@@ -132,6 +132,6 @@
 }
 
 .checkout-btn-disabled:hover {
-  background-color: #d1d5db; /* no hover effect */
+  background-color: #d1d5db;
   color: #9ca3af;
 }
