@@ -1,4 +1,3 @@
-// src/api/authApi.js
 import axiosClient from "./axiosClient";
 
 const authApi = {

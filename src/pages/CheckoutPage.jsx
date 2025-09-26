@@ -1,16 +1,33 @@
 import { useState } from "react";
 import "./CheckoutPage.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CartItem from "../components/cart/CartItem";
 import { FiMail } from "react-icons/fi";
 import { MdDone } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { checkoutCart } from "../features/cart/cartThunk";
 
-const InputWrapper = ({ placeholder, type, onChange, value }) => {
+const InputWrapper = ({
+  placeholder,
+  type,
+  setCheckout,
+  value,
+  checkout,
+  name,
+}) => {
   return (
     <div className="input-wrapper">
       {type === "email" && <FiMail size={20} color="#3E424A" />}
-      <input type={type} placeholder={placeholder} required />
+      <input
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) =>
+          setCheckout({ ...checkout, [e.target.name]: e.target.value })
+        }
+        required
+      />
     </div>
   );
 };
@@ -27,6 +44,7 @@ const CheckoutPage = () => {
   const [paidSuccess, setPaidSuccess] = useState(false);
 
   const { items } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   const subtotal = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -35,9 +53,24 @@ const CheckoutPage = () => {
 
   const delivery = 5;
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const zipRegex = /^[0-9]{4,10}$/;
+
+  const isValid =
+    checkout.name?.trim().length >= 3 &&
+    checkout.surname?.trim().length >= 3 &&
+    checkout.address?.trim().length >= 3 &&
+    emailRegex.test(checkout.email) &&
+    zipRegex.test(checkout.zip_code);
+
   const pay = () => {
+    console.log(checkout);
+
+    dispatch(checkoutCart({ data: checkout }));
     setPaidSuccess(true);
   };
+
+  console.log(checkout);
 
   const navigate = useNavigate();
 
@@ -67,17 +100,17 @@ const CheckoutPage = () => {
                 placeholder="Name"
                 type="text"
                 value={checkout.name}
-                onChange={(e) =>
-                  setCheckout({ ...checkout, name: e.target.value })
-                }
+                checkout={checkout}
+                setCheckout={setCheckout}
+                name={"name"}
               />
               <InputWrapper
                 placeholder="Surname"
                 type="text"
                 value={checkout.surname}
-                onChange={(e) =>
-                  setCheckout({ ...checkout, surname: e.target.value })
-                }
+                checkout={checkout}
+                setCheckout={setCheckout}
+                name={"surname"}
               />
             </div>
             <div>
@@ -85,9 +118,9 @@ const CheckoutPage = () => {
                 placeholder="Email"
                 type="email"
                 value={checkout.email}
-                onChange={(e) =>
-                  setCheckout({ ...checkout, email: e.target.value })
-                }
+                checkout={checkout}
+                setCheckout={setCheckout}
+                name={"email"}
               />
             </div>
             <div className="checkout-address">
@@ -95,17 +128,17 @@ const CheckoutPage = () => {
                 placeholder="Address"
                 type="text"
                 value={checkout.address}
-                onChange={(e) =>
-                  setCheckout({ ...checkout, address: e.target.value })
-                }
+                checkout={checkout}
+                setCheckout={setCheckout}
+                name={"address"}
               />
               <InputWrapper
                 placeholder="Zip code"
                 type="text"
                 value={checkout.zip_code}
-                onChange={(e) =>
-                  setCheckout({ ...checkout, zip_code: e.target.value })
-                }
+                checkout={checkout}
+                setCheckout={setCheckout}
+                name={"zip_code"}
               />
             </div>
           </div>
@@ -121,7 +154,14 @@ const CheckoutPage = () => {
                 <p>Delivery: ${5}</p>
                 <p className="total">Total: ${subtotal + delivery}</p>
               </div>
-              <button onClick={pay} className="checkout-btn">
+              <button
+                onClick={pay}
+                className={`checkout-btn ${
+                  !isValid ? "checkout-btn-disabled" : ""
+                }`}
+                disabled={!isValid}
+                aria-disabled={!isValid}
+              >
                 Pay{" "}
               </button>
             </div>

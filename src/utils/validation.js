@@ -1,4 +1,3 @@
-// validate register form fields
 export const validateRegister = (form) => {
   const errors = {};
 

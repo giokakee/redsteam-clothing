@@ -24,17 +24,17 @@ const cartSlice = createSlice({
         state.items.push(action.payload);
       })
       .addCase(updateCartQuantity.fulfilled, (state, action) => {
-        const { id, quantity } = action.payload; // make sure payload has both
+        const { id, quantity } = action.payload;
         const index = state.items.findIndex((item) => item.id === id);
         if (index !== -1) {
-          state.items[index].quantity = quantity; // ✅ update just quantity
+          state.items[index].quantity = quantity;
         }
       })
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.items = state.items.filter((item) => item.id !== action.payload);
       })
       .addCase(checkoutCart.fulfilled, (state, action) => {
-        state.items = []; // empty cart on success
+        state.items = [];
       });
   },
 });

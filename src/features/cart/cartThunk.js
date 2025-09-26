@@ -1,20 +1,18 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import cartApi from "../../api/cartApi";
 
-// 1. Get cart items
 export const fetchCart = createAsyncThunk(
   "cart/fetchCart",
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await cartApi.getAll();
-      return data; // axiosClient already returns data
+      return data;
     } catch (err) {
       return rejectWithValue(err.response?.data || "Error fetching cart");
     }
   }
 );
 
-// 2. Add product to cart
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ id, data }, { rejectWithValue }) => {
