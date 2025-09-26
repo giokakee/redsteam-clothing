@@ -2,7 +2,10 @@ import React from "react";
 
 const SizeSelector = ({ sizes, selected, onSelect }) => (
   <div className="size-selector">
-    <p className="size-label"> Size: {selected}</p>
+    <p className="size-label">
+      {" "}
+      Size: {selected} {!sizes && "(Out of Stock)"}
+    </p>
     <div className="size-options">
       {sizes &&
         sizes.map((size, idx) => (

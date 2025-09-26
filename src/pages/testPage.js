@@ -1,5 +1,5 @@
-import { use, useEffect, useState } from "react";
-import cartApi from "../api/cartApi";
+import { useEffect, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCart,
@@ -8,21 +8,12 @@ import {
   removeFromCart,
   updateCartQuantity,
 } from "../features/cart/cartThunk";
-import { BiColor } from "react-icons/bi";
-import axios from "axios";
-
-const userToRegister = {
-  email: "zimbabue@example.com",
-  username: "zimbabue",
-  password: "testpassword",
-  password_confirmation: "testpassword",
-};
 
 const TestPage = () => {
   const dispatch = useDispatch();
-  const { items, loading, error } = useSelector((state) => state.cart);
+  const { items } = useSelector((state) => state.cart);
   const [quantitiInput, setQuantitiInput] = useState("");
-  // Load cart on mount
+
   useEffect(() => {
     dispatch(fetchCart());
   }, [dispatch]);

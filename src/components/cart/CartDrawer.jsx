@@ -1,69 +1,63 @@
-import { motion } from "framer-motion";
 import CartItem from "./CartItem";
-
-const CartOverlay = ({ onClose }) => {
-  return (
-    <div
-      onClick={onClose}
-      className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
-    />
-  );
-};
+import "./CartDrawer.css";
+import { useNavigate } from "react-router-dom";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 
 export default function CartDrawer({ isOpen, onClose, items }) {
-  //   const subtotal = items.reduce(
-  //     (sum, item) => sum + item.price * item.quantity,
-  //     0
-  //   );
+  const navigate = useNavigate();
+
+  const subtotal = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
   const delivery = 5;
-  //   const total = subtotal + delivery;
+
+  const goToCheckout = () => {
+    navigate("/checkout", { replace: true });
+    onClose();
+  };
 
   return (
     <>
-      {false && <CartOverlay onClose={onClose} />}
-      <motion.div
-        initial={{ x: "100%" }}
-        animate={{ x: isOpen ? 0 : "100%" }}
-        exit={{ x: "100%" }}
-        transition={{ type: "tween", duration: 0.3 }}
-        className="fixed top-0 right-0 h-full w-96 bg-white shadow-xl z-50 flex flex-col"
-      >
-        {/* Header */}
-        <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-lg font-semibold">
-            Shopping cart ({items.length})
-          </h2>
-          <button onClick={onClose}>
-            <p className="w-6 h-6">aeeeeeeeee</p>
+      {isOpen && <div className="cart-overlay" onClick={onClose} />}
+      <div className={`cart-drawer ${isOpen ? "open" : ""}`}>
+        <div className="cart-header">
+          <h3>Shopping Cart ({items.length})</h3>
+          <button className="close-btn" onClick={onClose}>
+            ✕
           </button>
         </div>
 
-        {/* Items */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {/* {items.map((item) => (
-            <CartItem key={item.id} item={item} />
-          ))} */}
-        </div>
-
-        {/* Footer */}
-        <div className="p-4 border-t space-y-2">
-          <div className="flex justify-between">
-            <span>Items subtotal</span>
-            <span>${}</span>
+        {items.length > 0 ? (
+          <>
+            <div className="cart-items">
+              {items.map((item) => (
+                <CartItem key={item.id} item={item} />
+              ))}
+            </div>
+            <div className="cart-footer">
+              <div className="cart-total">
+                <p>Subtotal: ${subtotal}</p>
+                <p>Delivery: ${5}</p>
+                <p className="total">Total: ${subtotal + delivery}</p>
+              </div>
+              <button onClick={goToCheckout} className="checkout-btn">
+                Go to checkout{" "}
+              </button>
+            </div>
+          </>
+        ) : (
+          <div className="empty-cart">
+            <AiOutlineShoppingCart color="#ff4000" size={170} />
+            <div className="empty-message">
+              <p className="empty-title">Ooops!</p>
+              <p>You’ve got nothing in your cart just yet...</p>
+            </div>
+            <button onClick={onClose}>Start shopping</button>
           </div>
-          <div className="flex justify-between">
-            <span>Delivery</span>
-            <span>${}</span>
-          </div>
-          <div className="flex justify-between font-semibold text-lg">
-            <span>Total</span>
-            <span>${}</span>
-          </div>
-          <button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 rounded-xl mt-3">
-            Go to checkout
-          </button>
-        </div>
-      </motion.div>
+        )}
+      </div>
     </>
   );
 }

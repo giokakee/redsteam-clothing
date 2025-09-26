@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./SortFilter.css";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import { useSearchParams } from "react-router-dom";

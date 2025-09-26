@@ -1,27 +1,18 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
+import { BrowserRouter as Router } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
-import { Provider, useDispatch } from "react-redux";
-import { store } from "./app/store";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import cartApi from "./api/cartApi";
 import { fetchCart } from "./features/cart/cartThunk";
 
 function App() {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchCartData = async () => {
-      try {
-        dispatch(fetchCart());
-      } catch (err) {
-        console.log(err);
-      }
-    };
+  const user = useSelector((state) => state.auth.user);
 
-    fetchCartData();
-  }, [dispatch]);
+  useEffect(() => {
+    if (user) dispatch(fetchCart());
+  }, [dispatch, user]);
   return (
     <Router>
       <Navbar />

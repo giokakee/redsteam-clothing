@@ -7,7 +7,7 @@ import "./FilterSortBar.css";
 import SortDropdown from "./SortFilter";
 
 const FilterSortBar = ({ totalItems }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [sortingIsOpen, setSortingIsOpen] = useState(false);
 

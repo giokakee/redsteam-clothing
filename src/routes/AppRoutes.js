@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import AuthPage from "../pages/AuthPage";
 import ProductsPage from "../pages/ProductsPage";
 import ProductDetailPage from "../pages/ProductDetailPage";
-import CartPage from "../pages/CartPage";
+import CheckoutPage from "../pages/CheckoutPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import TestPage from "../pages/testPage";
 import ProtectedLayout from "../layouts/ProtectedLayout";
@@ -15,7 +15,7 @@ export default function AppRoutes() {
       <Route element={<ProtectedLayout />}>
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:id" element={<ProductDetailPage />} />
-        <Route path="/cart" element={<CartPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Route>
 
       <Route path="/" element={<Navigate to="/products" replace />} />

@@ -1,25 +1,73 @@
+import React from "react";
+import "./CartItem.css";
+import { useDispatch } from "react-redux";
+import {
+  removeFromCart,
+  updateCartQuantity,
+} from "../../features/cart/cartThunk";
 const CartItem = ({ item }) => {
+  const dispatch = useDispatch();
+
+  const handleDecrement = () => {
+    if (item.quantity === 1) {
+      dispatch(removeFromCart(item.id));
+    } else {
+      dispatch(
+        updateCartQuantity({
+          id: item.id,
+          quantity: item.quantity - 1,
+        })
+      );
+    }
+  };
+
+  const handleIncrement = () => {
+    dispatch(
+      updateCartQuantity({
+        id: item.id,
+        quantity: item.quantity + 1,
+      })
+    );
+  };
+
   return (
-    <div className="flex items-center justify-between gap-3 border p-2 rounded-lg">
+    <div className="cart-item">
       <img
-        src={item.image}
-        alt={item.name}
-        className="w-16 h-16 object-cover rounded-md"
+        src={item.cover_image}
+        alt={item.title}
+        className="cart-item-image"
       />
-      <div className="flex-1">
-        <h4 className="font-medium">{item.name}</h4>
-        <p className="text-sm text-gray-500">
-          {item.color} | {item.size}
-        </p>
-        <div className="flex items-center gap-2 mt-1">
-          <button className="px-2 py-1 border rounded">-</button>
-          <span>{item.quantity}</span>
-          <button className="px-2 py-1 border rounded">+</button>
+      <div className="cart-item-details">
+        <div className="cart-item-info">
+          <p className="cart-item-title">{item.name}</p>
+          <p className="cart-item-price">${item.price}</p>
         </div>
-      </div>
-      <div className="flex flex-col items-end">
-        <span className="font-semibold">${item.price}</span>
-        <button className="text-sm text-red-500 mt-1">Remove</button>
+        <p className="cart-item-color">{item.color}</p>
+        <p className="cart-item-size">{item.size}</p>
+        <div className="cart-item-quantity-container">
+          <div className="cart-item-quantity-controls">
+            <button
+              style={{ display: item.quantity === 1 ? "none" : "block" }}
+              className="cart-item-quantity-button"
+              onClick={handleDecrement}
+            >
+              -
+            </button>
+            <span className="cart-item-quantity">{item.quantity}</span>
+            <button
+              className="cart-item-quantity-button"
+              onClick={handleIncrement}
+            >
+              +
+            </button>
+          </div>
+          <button
+            className="cart-item-remove-button"
+            onClick={() => dispatch(removeFromCart(item.id))}
+          >
+            Remove
+          </button>
+        </div>
       </div>
     </div>
   );

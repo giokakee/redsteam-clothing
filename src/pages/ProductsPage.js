@@ -40,10 +40,6 @@ const ProductsPage = () => {
   const priceTo = searchParams.get("filter[price_to]") || "";
   const newParams = new URLSearchParams(searchParams);
 
-  const paramsObj = Object.fromEntries(searchParams.entries());
-
-  console.log(paramsObj);
-
   if (loading) return <p>Loading products...</p>;
   if (error) return <p>{error}</p>;
 

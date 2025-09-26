@@ -40,6 +40,21 @@ export const updateCartQuantity = createAsyncThunk(
   }
 );
 
+export const addOrUpdateCart = createAsyncThunk(
+  "cart/addOrUpdate",
+  async ({ id, data }, { getState, dispatch }) => {
+    const state = getState();
+    const existingItem = state.cart.items.find((item) => item.id === id);
+
+    if (existingItem) {
+      const newQuantity = existingItem.quantity + (data.quantity || 1);
+      return dispatch(updateCartQuantity({ id, quantity: newQuantity }));
+    } else {
+      return dispatch(addToCart({ id, data }));
+    }
+  }
+);
+
 export const removeFromCart = createAsyncThunk(
   "cart/removeFromCart",
   async (id, { rejectWithValue }) => {

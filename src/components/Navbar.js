@@ -1,21 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import "./Navbar.css";
-
 import defaultAvatar from "../assets/blank-avatar-photo-place-holder-600nw-1095249842.jpg";
-
 import { FaUser } from "react-icons/fa";
 import { PiHandEyeFill } from "react-icons/pi";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import CartDrawer from "./cart/CartDrawer";
+
 export default function Navbar() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
 
   const [isOpen, setIsOpen] = useState(false);
   const cart = useSelector((state) => state.cart);
-  console.log(cart, " here we areeee");
+
   return (
     <div className="navbar-container">
       <nav className="navbar">
@@ -27,7 +26,12 @@ export default function Navbar() {
         <div className="navbar-right">
           {user ? (
             <div className="user-info">
-              <FaShoppingCart size={20} color="#10151F" />
+              <FaShoppingCart
+                onClick={() => setIsOpen(true)}
+                size={20}
+                color="#10151F"
+                cursor={"pointer"}
+              />
               <img
                 src={user.avatar ? user.avatar : defaultAvatar}
                 alt="Avatar"
@@ -43,7 +47,11 @@ export default function Navbar() {
         </div>
       </nav>
 
-      <CartDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} items={[]} />
+      <CartDrawer
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        items={cart.items}
+      />
     </div>
   );
 }

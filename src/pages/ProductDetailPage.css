@@ -100,7 +100,6 @@
 
 .color-label,
 .size-label {
-  margin-right: 0.5rem;
   font-family: Poppins;
   font-weight: 400;
   font-size: 16px;
@@ -146,15 +145,35 @@
   border-color: #e98967;
 }
 
+.quantity-selector select {
+  font-size: 16px;
+  border: none;
+  width: 50px;
+}
+
 .add-to-cart-btn {
   background: #ff4500;
   color: #fff;
-  padding: 0.8rem 1.2rem;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   margin: 1rem 0;
   width: 100%;
+  height: 59px;
+  font-family: Poppins;
+  font-weight: 500;
+  font-size: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.disabled-btn {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .product-details p {
@@ -163,6 +182,7 @@
   font-size: 16px;
   line-height: 100%;
   color: #3e424a;
+  word-spacing: 7px;
 }
 
 .product-brand {

@@ -37,15 +37,13 @@ const ProductInfo = ({ product, colors, selectedImage, setSelectedImage }) => {
       <div className="product-details">
         <div className="product-brand">
           <h3>Details</h3>
-          <img src={product.brand.image} />
+          <img src={product.brand.image} alt="brand" />
         </div>
         <p>Brand: {product.brand.name}</p>
         <p>{product.description}</p>
       </div>
     </div>
   );
-
-  return <div>aee</div>;
 };
 
 export default ProductInfo;
