@@ -5,6 +5,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import FilterSortBar from "../components/filters/FilterSortBar";
 import { RiDeleteBack2Line } from "react-icons/ri";
+import Loading from "../components/Loading";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -40,7 +41,7 @@ const ProductsPage = () => {
   const priceTo = searchParams.get("filter[price_to]") || "";
   const newParams = new URLSearchParams(searchParams);
 
-  if (loading) return <p>Loading products...</p>;
+  if (loading) return <Loading />;
   if (error) return <p>{error}</p>;
 
   return (

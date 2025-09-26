@@ -4,6 +4,7 @@ import "./ProductDetailPage.css";
 import axiosClient from "../api/axiosClient";
 import ProductGallery from "../components/productDetails/ProductGallery";
 import ProductInfo from "../components/productDetails/ProductInfo";
+import Loading from "../components/Loading";
 
 const ProductDetailsPage = () => {
   const { id } = useParams();
@@ -24,7 +25,7 @@ const ProductDetailsPage = () => {
   }, [id]);
 
   if (error) return <Navigate to="/" />;
-  if (!product) return <p>Loading...</p>;
+  if (!product) return <Loading />;
   return (
     <div className="product-details-page-container">
       <p className="listing-title">Listing / Product</p>

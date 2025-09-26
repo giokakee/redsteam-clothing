@@ -6,6 +6,7 @@ import { validateRegister } from "../../utils/validation";
 import { registerUser, loginUser } from "../../features/auth/authThunk";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Toast from "../Toast";
 
 export default function AuthForm({ isLogin, onSubmit }) {
   const dispatch = useDispatch();
@@ -26,6 +27,9 @@ export default function AuthForm({ isLogin, onSubmit }) {
   const [preview, setPreview] = useState(defaultAvatar);
   const [fileError, setFileError] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const [showError, setShowError] = useState(false);
+  const [errorMessage] = useState("Wrong credentials!");
 
   useEffect(() => {
     if (file) {
@@ -66,14 +70,18 @@ export default function AuthForm({ isLogin, onSubmit }) {
     setFile(selectedFile);
   };
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      dispatch(loginUser(loginData));
-      navigate("/");
+      const resultAction = await dispatch(loginUser(loginData));
+
+      if (loginUser.rejected.match(resultAction)) {
+        setShowError(true);
+      } else {
+        navigate("/");
+      }
     } catch (error) {
-      console.log(error);
+      setShowError(true);
     }
 
     setLoginData({ email: "", password: "" });
@@ -197,6 +205,12 @@ export default function AuthForm({ isLogin, onSubmit }) {
           </button>
         </div>
       )}
+
+      <Toast
+        message={errorMessage}
+        show={showError}
+        onClose={() => setShowError(false)}
+      />
     </form>
   );
 }
