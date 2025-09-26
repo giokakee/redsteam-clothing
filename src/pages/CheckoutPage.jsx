@@ -64,13 +64,9 @@ const CheckoutPage = () => {
     zipRegex.test(checkout.zip_code);
 
   const pay = () => {
-    console.log(checkout);
-
     dispatch(checkoutCart({ data: checkout }));
     setPaidSuccess(true);
   };
-
-  console.log(checkout);
 
   const navigate = useNavigate();
 
