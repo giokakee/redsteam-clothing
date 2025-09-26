@@ -29,7 +29,7 @@ export default function AuthForm({ isLogin, onSubmit }) {
   const [errors, setErrors] = useState({});
 
   const [showError, setShowError] = useState(false);
-  const [errorMessage] = useState("Wrong credentials!");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (file) {
@@ -81,6 +81,8 @@ export default function AuthForm({ isLogin, onSubmit }) {
         navigate("/");
       }
     } catch (error) {
+      setErrorMessage("Invalid email or password!");
+
       setShowError(true);
     }
 
@@ -107,10 +109,19 @@ export default function AuthForm({ isLogin, onSubmit }) {
     }
 
     try {
-      dispatch(registerUser(formData));
-      navigate("/");
+      const resultAction = await dispatch(registerUser(formData));
+
+      if (registerUser.rejected.match(resultAction)) {
+        setShowError(true);
+      } else {
+        navigate("/");
+      }
+
+      // dispatch(registerUser(formData));
+      // navigate("/");
     } catch (err) {
-      console.log(err);
+      setErrorMessage("Email already exists");
+      setShowError(true);
     }
 
     setRegisterData({
