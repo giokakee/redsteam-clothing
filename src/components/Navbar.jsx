@@ -11,6 +11,7 @@ import CartDrawer from "./cart/CartDrawer";
 export default function Navbar() {
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
+  const { items } = useSelector((state) => state.cart);
 
   const [isOpen, setIsOpen] = useState(false);
   const cart = useSelector((state) => state.cart);
@@ -32,6 +33,7 @@ export default function Navbar() {
                 color="#10151F"
                 cursor={"pointer"}
               />
+              <p>({items.length > 0 ? items.length : ""})</p>
               <img
                 src={user.avatar ? user.avatar : defaultAvatar}
                 alt="Avatar"
